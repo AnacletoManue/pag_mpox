@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mpox Angola — Triagem digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F6F5;
+    --surface: #FFFFFF;
+    --ink: #12262B;
+    --ink-soft: #4C6068;
+    --border: rgba(18,38,43,0.12);
+    --brand: #0F5C52;
+    --brand-dark: #0B453D;
+    --brand-soft: rgba(15,92,82,0.08);
+    --accent: #C98A2B;
+    --tier-low: #3E8E5B;
+    --tier-mid: #C98A2B;
+    --tier-high: #B3432E;
+
+    --font-head: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-sizing: border-box;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E1B1C;
+      --surface: #14282A;
+      --ink: #E9F1EF;
+      --ink-soft: #9FB4B2;
+      --border: rgba(233,241,239,0.14);
+      --brand: #4FA394;
+      --brand-dark: #7CC0B2;
+      --brand-soft: rgba(79,163,148,0.14);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E1B1C;
+    --surface: #14282A;
+    --ink: #E9F1EF;
+    --ink-soft: #9FB4B2;
+    --border: rgba(233,241,239,0.14);
+    --brand: #4FA394;
+    --brand-dark: #7CC0B2;
+    --brand-soft: rgba(79,163,148,0.14);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  h1, h2, h3 {
+    font-family: var(--font-head);
+    font-weight: 600;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  p { margin: 0; }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  }
+
+  .wrap {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- NAV ---------- */
+
+  nav.topbar {
+    position: sticky;
+    top: 0;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .topbar-inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .wordmark .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--brand);
+    flex: none;
+  }
+
+  .navlinks {
+    display: flex;
+    gap: 4px;
+  }
+
+  .navlinks button {
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .navlinks button[aria-current="page"] {
+    color: var(--ink);
+    background: var(--brand-soft);
+  }
+
+  .navlinks button:hover { color: var(--ink); }
+
+  /* ---------- HERO ---------- */
+
+  .hero {
+    padding: 64px 0 56px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(30px, 4.4vw, 44px);
+    line-height: 1.14;
+    max-width: 14ch;
+  }
+
+  .hero .lede {
+    margin-top: 18px;
+    max-width: 46ch;
+    color: var(--ink-soft);
+    font-size: 16.5px;
+  }
+
+  .cta-row {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .store-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 18px;
+    border-radius: 11px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    background: var(--surface);
+  }
+
+  .store-btn.primary {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #FBFDFC;
+  }
+
+  .store-btn svg { flex: none; }
+
+  .store-btn .labels { display: flex; flex-direction: column; line-height: 1.25; text-align: left; }
+  .store-btn .labels .small { font-size: 10.5px; opacity: 0.75; }
+  .store-btn .labels .big { font-size: 13.5px; font-weight: 600; }
+
+  .soon-note {
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  /* Triage indicator — the hero visual */
+
+  .tiers {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tier {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .tier .bar {
+    width: 4px;
+    align-self: stretch;
+    border-radius: 3px;
+    flex: none;
+  }
+
+  .tier.low .bar { background: var(--tier-low); }
+  .tier.mid .bar { background: var(--tier-mid); }
+  .tier.high .bar { background: var(--tier-high); }
+
+  .tier .txt strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .tier .txt span {
+    display: block;
+    margin-top: 2px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- SECTIONS ---------- */
+
+  section.block {
+    padding: 46px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .block .col {
+    max-width: 640px;
+  }
+
+  section.block h2 {
+    font-size: 22px;
+  }
+
+  section.block .lede {
+    margin-top: 12px;
+    color: var(--ink-soft);
+    font-size: 15.5px;
+    max-width: 62ch;
+  }
+
+  .helps {
+    margin-top: 28px;
+    display: grid;
+    gap: 20px;
+  }
+
+  .helps .row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .helps .mark {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--brand);
+    margin-top: 7px;
+    flex: none;
+  }
+
+  .helps strong {
+    display: block;
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+
+  .helps p {
+    margin-top: 3px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    max-width: 56ch;
+  }
+
+  .disclaimer {
+    margin-top: 34px;
+    padding: 14px 16px;
+    border-left: 2px solid var(--tier-mid);
+    background: var(--brand-soft);
+    border-radius: 0 8px 8px 0;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    max-width: 56ch;
+  }
+
+  /* ---------- EQUIPA ---------- */
+
+  .team-intro { max-width: 560px; }
+
+  .team-group {
+    margin-top: 34px;
+  }
+
+  .team-group h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .team-grid {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .person {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    width: 100%;
+    transition: border-color 0.15s ease;
+  }
+
+  .person:hover,
+  .person:focus-visible {
+    border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
+  }
+
+  /* ---------- MODAL: detalhes da pessoa ---------- */
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--ink) 55%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    padding-top: calc(24px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.16s ease;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .modal-card {
+    width: 100%;
+    max-width: 400px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transform: translateY(6px) scale(0.98);
+    transition: transform 0.16s ease;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+
+  .modal-overlay.open .modal-card {
+    transform: translateY(0) scale(1);
+  }
+
+  .modal-top {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 6px;
+    line-height: 0;
+  }
+
+  .modal-close:hover { color: var(--ink); }
+
+  .modal-avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 24px;
+    color: var(--brand);
+    background: var(--brand-soft);
+    border: 1.8px dashed color-mix(in srgb, var(--brand) 55%, transparent);
+    margin: 4px auto 0;
+  }
+
+  .modal-name {
+    margin-top: 16px;
+    font-size: 21px;
+    text-align: center;
+  }
+
+  .modal-role {
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  .modal-details {
+    margin-top: 24px;
+    display: grid;
+    gap: 14px;
+  }
+
+  .modal-details dt {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .modal-details dd {
+    margin: 3px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .modal-details dd a {
+    color: var(--brand);
+    text-decoration: none;
+  }
+
+  .modal-details dd a:hover { text-decoration: underline; }
+
+  .modal-details dd.empty {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  .modal-startup {
+    margin-top: 20px;
+    padding: 12px 14px;
+    background: var(--brand-soft);
+    border-radius: 10px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--brand);
+    background: var(--brand-soft);
+    border: 1.6px dashed color-mix(in srgb, var(--brand) 55%, transparent);
+  }
+
+  .person .name {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .person .role {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .photo-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- FOOTER ---------- */
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 22px 0 calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 44px; gap: 34px; }
+    .team-grid { grid-template-columns: 1fr; }
+    .hero h1 { max-width: none; }
+  }
+
+  [data-view] { display: none; }
+  [data-view].active { display: block; }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a class="wordmark" href="#" onclick="showView('about');return false;">
+      <span class="dot"></span> Mpox Angola
+    </a>
+    <div class="navlinks">
+      <button type="button" data-nav="about" aria-current="page" onclick="showView('about')">Sobre</button>
+      <button type="button" data-nav="team" onclick="showView('team')">Equipa</button>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- ============ SOBRE ============ -->
+  <div data-view="about" class="active">
+
+    <section class="hero">
+      <div>
+        <h1>Saber quando procurar ajuda — mais cedo.</h1>
+        <p class="lede">
+          Durante um surto, muita gente não sabe interpretar sintomas nem quando ir a
+          uma unidade de saúde. O Mpox Angola é uma triagem digital rápida que avalia
+          sinais e orienta cada pessoa sobre o próximo passo certo.
+        </p>
+
+        <div class="cta-row">
+          <a class="store-btn primary" href="#" aria-label="Transferir para Android">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="2.3"/><line x1="10" y1="19" x2="14" y2="19"/></svg>
+            <span class="labels"><span class="small">Transferir para</span><span class="big">Android</span></span>
+          </a>
+          <a class="store-btn" href="#" aria-label="Transferir para iOS">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="2.3"/><line x1="10" y1="19" x2="14" y2="19"/></svg>
+            <span class="labels"><span class="small">Transferir para</span><span class="big">iOS</span></span>
+          </a>
+        </div>
+        <p class="soon-note">Em fase de lançamento — as ligações para as lojas ficam activas brevemente.</p>
+      </div>
+
+      <div class="tiers" role="list" aria-label="Níveis de triagem">
+        <div class="tier low">
+          <div class="bar"></div>
+          <div class="txt"><strong>Baixo nível de atenção</strong><span>Orientações de prevenção e acompanhamento</span></div>
+        </div>
+        <div class="tier mid">
+          <div class="bar"></div>
+          <div class="txt"><strong>Atenção</strong><span>Procurar um profissional de saúde</span></div>
+        </div>
+        <div class="tier high">
+          <div class="bar"></div>
+          <div class="txt"><strong>Prioridade</strong><span>Procurar atendimento com maior brevidade</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="col">
+        <h2>O problema</h2>
+        <p class="lede">
+          Em surtos de doenças infecciosas, identificar cedo quem precisa de avaliação
+          médica é difícil — e os serviços de saúde recebem pessoas com níveis de risco
+          muito diferentes, ao mesmo tempo.
+        </p>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="col">
+        <h2>Como ajudamos</h2>
+        <p class="lede">A pessoa responde a algumas perguntas simples e recebe, de imediato, uma orientação clara.</p>
+
+        <div class="helps">
+          <div class="row">
+            <span class="mark"></span>
+            <div>
+              <strong>Identificação precoce</strong>
+              <p>Sinais e sintomas são avaliados antes de a pessoa chegar ao hospital.</p>
+            </div>
+          </div>
+          <div class="row">
+            <span class="mark"></span>
+            <div>
+              <strong>Encaminhamento</strong>
+              <p>Indicação clara de quando e onde procurar assistência.</p>
+            </div>
+          </div>
+          <div class="row">
+            <span class="mark"></span>
+            <div>
+              <strong>Educação em saúde</strong>
+              <p>Informação sobre prevenção e cuidados, baseada em critérios de profissionais de saúde.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="disclaimer">
+          Triagem não é diagnóstico. A plataforma apoia a decisão — não substitui um médico.
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ============ EQUIPA ============ -->
+  <div data-view="team">
+
+    <section class="block" style="border-top:none; padding-top:56px;">
+      <div class="team-intro">
+        <h2>Equipa</h2>
+        <p class="lede" style="margin-top:10px;">As pessoas que constroem e mantêm o projecto.</p>
+      </div>
+
+      <div class="team-group">
+        <h3>Informática</h3>
+        <div class="team-grid">
+          <button type="button" class="person" data-person="anacleto" onclick="openPerson('anacleto', this)">
+            <div class="avatar">AM</div>
+            <div>
+              <div class="name">Anacleto Manuel</div>
+              <div class="role">Técnico de Informática</div>
+            </div>
+          </button>
+          <button type="button" class="person" data-person="marcelino" onclick="openPerson('marcelino', this)">
+            <div class="avatar">MI</div>
+            <div>
+              <div class="name">Marcelino Ikuma</div>
+              <div class="role">Técnico de Informática</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <div class="team-group">
+        <h3>Electrónica e Telecomunicações</h3>
+        <div class="team-grid">
+          <button type="button" class="person" data-person="jaime" onclick="openPerson('jaime', this)">
+            <div class="avatar">JM</div>
+            <div>
+              <div class="name">Jaime Martinho</div>
+              <div class="role">Técnico de Electrónica e Telecomunicações</div>
+            </div>
+          </button>
+          <button type="button" class="person" data-person="cristiano" onclick="openPerson('cristiano', this)">
+            <div class="avatar">CA</div>
+            <div>
+              <div class="name">Cristiano Airosa</div>
+              <div class="role">Técnico de Electrónica e Telecomunicações</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <p class="photo-note">Fotografias por adicionar.</p>
+    </section>
+
+  </div>
+
+  <div class="modal-overlay" id="personModal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+    <div class="modal-card">
+      <div class="modal-top">
+        <button type="button" class="modal-close" aria-label="Fechar" onclick="closePerson()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+        </button>
+      </div>
+      <div class="modal-avatar" id="modalAvatar"></div>
+      <h3 class="modal-name" id="modalName"></h3>
+      <p class="modal-role" id="modalRole"></p>
+
+      <dl class="modal-details">
+        <div>
+          <dt>Idade</dt>
+          <dd id="modalAge"></dd>
+        </div>
+        <div>
+          <dt>Contacto</dt>
+          <dd id="modalEmail"></dd>
+        </div>
+        <div>
+          <dt>LinkedIn</dt>
+          <dd id="modalLinkedin"></dd>
+        </div>
+      </dl>
+
+      <p class="modal-startup" id="modalStartup"></p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© 2026 Mpox Angola — projecto de triagem digital</span>
+    <span>Ferramenta de apoio à triagem. Não substitui avaliação médica.</span>
+  </div>
+</footer>
+
+<script>
+  // ============================================================
+  // DADOS DA EQUIPA — EDITA AQUI
+  // Preenche idade, email e linkedin com a informação real de cada
+  // pessoa. Campos deixados como "" aparecem no modal como "A preencher".
+  // ============================================================
+  var STARTUP_NOME = "[nome da startup]";
+  var STARTUP_ANO = 2026;
+
+  var PEOPLE = {
+    anacleto: {
+      name: "Anacleto Manuel",
+      initials: "AM",
+      role: "Técnico de Informática",
+      age: "",
+      email: "",
+      linkedin: ""
+    },
+    marcelino: {
+      name: "Marcelino Ikuma",
+      initials: "MI",
+      role: "Técnico de Informática",
+      age: "",
+      email: "",
+      linkedin: ""
+    },
+    jaime: {
+      name: "Jaime Martinho",
+      initials: "JM",
+      role: "Técnico de Electrónica e Telecomunicações",
+      age: "",
+      email: "",
+      linkedin: ""
+    },
+    cristiano: {
+      name: "Cristiano Airosa",
+      initials: "CA",
+      role: "Técnico de Electrónica e Telecomunicações",
+      age: "",
+      email: "",
+      linkedin: ""
+    }
+  };
+  // ============================================================
+
+  var lastTrigger = null;
+
+  function openPerson(id, triggerEl) {
+    var p = PEOPLE[id];
+    if (!p) return;
+    lastTrigger = triggerEl || null;
+
+    document.getElementById('modalAvatar').textContent = p.initials;
+    document.getElementById('modalName').textContent = p.name;
+    document.getElementById('modalRole').textContent = p.role;
+
+    setDetail('modalAge', p.age);
+    setDetail('modalEmail', p.email, function (val) {
+      var a = document.createElement('a');
+      a.href = 'mailto:' + val;
+      a.textContent = val;
+      return a;
+    });
+    setDetail('modalLinkedin', p.linkedin, function (val) {
+      var a = document.createElement('a');
+      a.href = val;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.textContent = 'Ver perfil';
+      return a;
+    });
+
+    document.getElementById('modalStartup').textContent =
+      'Co-fundador(a) da ' + STARTUP_NOME + ', startup fundada em ' + STARTUP_ANO +
+      ' pelos quatro membros desta equipa.';
+
+    var overlay = document.getElementById('personModal');
+    overlay.classList.add('open');
+    overlay.querySelector('.modal-close').focus();
+    document.addEventListener('keydown', onModalKeydown);
+  }
+
+  function setDetail(elId, value, makeLink) {
+    var el = document.getElementById(elId);
+    el.innerHTML = '';
+    if (!value) {
+      el.textContent = 'A preencher';
+      el.classList.add('empty');
+      return;
+    }
+    el.classList.remove('empty');
+    if (makeLink) {
+      el.appendChild(makeLink(value));
+    } else {
+      el.textContent = value;
+    }
+  }
+
+  function closePerson() {
+    var overlay = document.getElementById('personModal');
+    overlay.classList.remove('open');
+    document.removeEventListener('keydown', onModalKeydown);
+    if (lastTrigger) lastTrigger.focus();
+  }
+
+  function onModalKeydown(e) {
+    if (e.key === 'Escape') closePerson();
+  }
+
+  document.getElementById('personModal').addEventListener('click', function (e) {
+    if (e.target === this) closePerson();
+  });
+
+  function showView(name) {
+    document.querySelectorAll('[data-view]').forEach(function (el) {
+      el.classList.toggle('active', el.getAttribute('data-view') === name);
+    });
+    document.querySelectorAll('.navlinks button').forEach(function (btn) {
+      var isCurrent = btn.getAttribute('data-nav') === name;
+      if (isCurrent) { btn.setAttribute('aria-current', 'page'); }
+      else { btn.removeAttribute('aria-current'); }
+    });
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
+</script>
+
+</body>
+</html>
