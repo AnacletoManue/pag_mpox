@@ -9,615 +9,145 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #F4F6F5;
-    --surface: #FFFFFF;
-    --ink: #12262B;
-    --ink-soft: #4C6068;
-    --border: rgba(18,38,43,0.12);
-    --brand: #0F5C52;
-    --brand-dark: #0B453D;
-    --brand-soft: rgba(15,92,82,0.08);
-    --accent: #C98A2B;
-    --tier-low: #3E8E5B;
-    --tier-mid: #C98A2B;
-    --tier-high: #B3432E;
-
+    --bg: #F4F6F5; --surface: #FFFFFF; --ink: #12262B; --ink-soft: #4C6068;
+    --border: rgba(18,38,43,0.12); --brand: #0F5C52; --brand-dark: #0B453D;
+    --brand-soft: rgba(15,92,82,0.08); --accent: #C98A2B;
+    --tier-low: #3E8E5B; --tier-mid: #C98A2B; --tier-high: #B3432E;
     --font-head: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, sans-serif;
     --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-
     color-scheme: light;
     padding-top: env(safe-area-inset-top, 0px);
     padding-bottom: env(safe-area-inset-bottom, 0px);
     box-sizing: border-box;
   }
-
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0E1B1C;
-      --surface: #14282A;
-      --ink: #E9F1EF;
-      --ink-soft: #9FB4B2;
-      --border: rgba(233,241,239,0.14);
-      --brand: #4FA394;
-      --brand-dark: #7CC0B2;
-      --brand-soft: rgba(79,163,148,0.14);
-      color-scheme: dark;
+      --bg: #0E1B1C; --surface: #14282A; --ink: #E9F1EF; --ink-soft: #9FB4B2;
+      --border: rgba(233,241,239,0.14); --brand: #4FA394; --brand-dark: #7CC0B2;
+      --brand-soft: rgba(79,163,148,0.14); color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0E1B1C;
-    --surface: #14282A;
-    --ink: #E9F1EF;
-    --ink-soft: #9FB4B2;
-    --border: rgba(233,241,239,0.14);
-    --brand: #4FA394;
-    --brand-dark: #7CC0B2;
-    --brand-soft: rgba(79,163,148,0.14);
-    color-scheme: dark;
+    --bg: #0E1B1C; --surface: #14282A; --ink: #E9F1EF; --ink-soft: #9FB4B2;
+    --border: rgba(233,241,239,0.14); --brand: #4FA394; --brand-dark: #7CC0B2;
+    --brand-soft: rgba(79,163,148,0.14); color-scheme: dark;
   }
-
   * { box-sizing: border-box; }
-
   html { scroll-padding-top: env(safe-area-inset-top, 0px); }
-
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-  }
-
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
   a { color: inherit; }
-
-  h1, h2, h3 {
-    font-family: var(--font-head);
-    font-weight: 600;
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-
+  h1, h2, h3 { font-family: var(--font-head); font-weight: 600; margin: 0; letter-spacing: -0.01em; }
   p { margin: 0; }
-
-  :focus-visible {
-    outline: 2px solid var(--brand);
-    outline-offset: 3px;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
-  }
-
-  .wrap {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 24px;
-  }
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; } }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
   /* ---------- NAV ---------- */
-
-  nav.topbar {
-    position: sticky;
-    top: 0;
-    top: env(safe-area-inset-top, 0px);
-    z-index: 20;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .topbar-inner {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 16px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .wordmark {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-family: var(--font-head);
-    font-weight: 600;
-    font-size: 16px;
-    text-decoration: none;
-    color: var(--ink);
-  }
-
-  .wordmark .dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--brand);
-    flex: none;
-  }
-
-  .navlinks {
-    display: flex;
-    gap: 4px;
-  }
-
-  .navlinks button {
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 500;
-    background: none;
-    border: none;
-    color: var(--ink-soft);
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-
-  .navlinks button[aria-current="page"] {
-    color: var(--ink);
-    background: var(--brand-soft);
-  }
-
+  nav.topbar { position: sticky; top: 0; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+  .topbar-inner { max-width: 1080px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; }
+  .wordmark { display: flex; align-items: center; gap: 9px; font-family: var(--font-head); font-weight: 600; font-size: 16px; text-decoration: none; color: var(--ink); }
+  .wordmark .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--brand); flex: none; }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .navlinks { display: flex; gap: 4px; }
+  .navlinks button { font-family: var(--font-body); font-size: 14px; font-weight: 500; background: none; border: none; color: var(--ink-soft); padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+  .navlinks button[aria-current="page"] { color: var(--ink); background: var(--brand-soft); }
   .navlinks button:hover { color: var(--ink); }
+  .lang-select { font-family: var(--font-body); font-size: 13.5px; font-weight: 500; color: var(--ink); background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 7px 10px; cursor: pointer; }
 
   /* ---------- HERO ---------- */
-
-  .hero {
-    padding: 64px 0 56px;
-    display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 56px;
-    align-items: center;
-  }
-
-  .hero h1 {
-    font-size: clamp(30px, 4.4vw, 44px);
-    line-height: 1.14;
-    max-width: 14ch;
-  }
-
-  .hero .lede {
-    margin-top: 18px;
-    max-width: 46ch;
-    color: var(--ink-soft);
-    font-size: 16.5px;
-  }
-
-  .cta-row {
-    margin-top: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .store-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 11px 18px;
-    border-radius: 11px;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    border: 1px solid var(--border);
-    color: var(--ink);
-    background: var(--surface);
-  }
-
-  .store-btn.primary {
-    background: var(--brand);
-    border-color: var(--brand);
-    color: #FBFDFC;
-  }
-
+  .hero { padding: 64px 0 56px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; }
+  .hero h1 { font-size: clamp(30px, 4.4vw, 44px); line-height: 1.14; max-width: 14ch; }
+  .hero .lede { margin-top: 18px; max-width: 46ch; color: var(--ink-soft); font-size: 16.5px; }
+  .cta-row { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .store-btn { display: flex; align-items: center; gap: 10px; padding: 11px 18px; border-radius: 11px; text-decoration: none; font-size: 14px; font-weight: 500; border: 1px solid var(--border); color: var(--ink); background: var(--surface); }
+  .store-btn.primary { background: var(--brand); border-color: var(--brand); color: #FBFDFC; }
   .store-btn svg { flex: none; }
-
   .store-btn .labels { display: flex; flex-direction: column; line-height: 1.25; text-align: left; }
   .store-btn .labels .small { font-size: 10.5px; opacity: 0.75; }
   .store-btn .labels .big { font-size: 13.5px; font-weight: 600; }
+  .soon-note { margin-top: 12px; font-size: 12.5px; color: var(--ink-soft); }
 
-  .soon-note {
-    margin-top: 12px;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-  }
-
-  /* Triage indicator — the hero visual */
-
-  .tiers {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .tier {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 18px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-  }
-
-  .tier .bar {
-    width: 4px;
-    align-self: stretch;
-    border-radius: 3px;
-    flex: none;
-  }
-
+  .tiers { display: flex; flex-direction: column; gap: 10px; }
+  .tier { display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+  .tier .bar { width: 4px; align-self: stretch; border-radius: 3px; flex: none; }
   .tier.low .bar { background: var(--tier-low); }
   .tier.mid .bar { background: var(--tier-mid); }
   .tier.high .bar { background: var(--tier-high); }
-
-  .tier .txt strong {
-    display: block;
-    font-size: 13.5px;
-    font-weight: 600;
-  }
-
-  .tier .txt span {
-    display: block;
-    margin-top: 2px;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-  }
+  .tier .txt strong { display: block; font-size: 13.5px; font-weight: 600; }
+  .tier .txt span { display: block; margin-top: 2px; font-size: 12.5px; color: var(--ink-soft); }
 
   /* ---------- SECTIONS ---------- */
+  section.block { padding: 46px 0; border-top: 1px solid var(--border); }
+  .block .col { max-width: 640px; }
+  section.block h2 { font-size: 22px; }
+  section.block .lede { margin-top: 12px; color: var(--ink-soft); font-size: 15.5px; max-width: 62ch; }
+  .helps { margin-top: 28px; display: grid; gap: 20px; }
+  .helps .row { display: flex; gap: 14px; align-items: flex-start; }
+  .helps .mark { width: 8px; height: 8px; border-radius: 50%; background: var(--brand); margin-top: 7px; flex: none; }
+  .helps strong { display: block; font-size: 14.5px; font-weight: 600; }
+  .helps p { margin-top: 3px; font-size: 13.5px; color: var(--ink-soft); max-width: 56ch; }
+  .disclaimer { margin-top: 34px; padding: 14px 16px; border-left: 2px solid var(--tier-mid); background: var(--brand-soft); border-radius: 0 8px 8px 0; font-size: 12.5px; color: var(--ink-soft); max-width: 56ch; }
 
-  section.block {
-    padding: 46px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .block .col {
-    max-width: 640px;
-  }
-
-  section.block h2 {
-    font-size: 22px;
-  }
-
-  section.block .lede {
-    margin-top: 12px;
-    color: var(--ink-soft);
-    font-size: 15.5px;
-    max-width: 62ch;
-  }
-
-  .helps {
-    margin-top: 28px;
-    display: grid;
-    gap: 20px;
-  }
-
-  .helps .row {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-  }
-
-  .helps .mark {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--brand);
-    margin-top: 7px;
-    flex: none;
-  }
-
-  .helps strong {
-    display: block;
-    font-size: 14.5px;
-    font-weight: 600;
-  }
-
-  .helps p {
-    margin-top: 3px;
-    font-size: 13.5px;
-    color: var(--ink-soft);
-    max-width: 56ch;
-  }
-
-  .disclaimer {
-    margin-top: 34px;
-    padding: 14px 16px;
-    border-left: 2px solid var(--tier-mid);
-    background: var(--brand-soft);
-    border-radius: 0 8px 8px 0;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    max-width: 56ch;
-  }
+  /* ---------- O QUE É O MPOX ---------- */
+  .facts { margin-top: 28px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .fact { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .fact h3 { font-size: 15px; }
+  .fact ul { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .fact li { position: relative; padding-left: 16px; font-size: 13.5px; color: var(--ink-soft); }
+  .fact li::before { content: ""; position: absolute; left: 0; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+  .seek { margin-top: 20px; padding: 14px 16px; border-left: 2px solid var(--tier-high); background: var(--brand-soft); border-radius: 0 8px 8px 0; font-size: 13.5px; max-width: 72ch; }
 
   /* ---------- EQUIPA ---------- */
-
   .team-intro { max-width: 560px; }
+  .team-group { margin-top: 34px; }
+  .team-group h3 { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+  .team-grid { margin-top: 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .person { display: flex; align-items: center; gap: 14px; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; cursor: pointer; text-align: left; font: inherit; color: inherit; width: 100%; transition: border-color 0.15s ease; }
+  .person:hover, .person:focus-visible { border-color: color-mix(in srgb, var(--brand) 45%, var(--border)); }
+  .avatar { width: 52px; height: 52px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 600; font-size: 14px; color: var(--brand); background: var(--brand-soft); border: 1.6px dashed color-mix(in srgb, var(--brand) 55%, transparent); overflow: hidden; }
+  .person .name { font-size: 14px; font-weight: 600; }
+  .person .role { margin-top: 2px; font-size: 12px; color: var(--ink-soft); }
+  .photo-note { margin-top: 14px; font-size: 12px; color: var(--ink-soft); }
 
-  .team-group {
-    margin-top: 34px;
-  }
-
-  .team-group h3 {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ink-soft);
-  }
-
-  .team-grid {
-    margin-top: 16px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .person {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    cursor: pointer;
-    text-align: left;
-    font: inherit;
-    color: inherit;
-    width: 100%;
-    transition: border-color 0.15s ease;
-  }
-
-  .person:hover,
-  .person:focus-visible {
-    border-color: color-mix(in srgb, var(--brand) 45%, var(--border));
-  }
-
-  /* ---------- MODAL: detalhes da pessoa ---------- */
-
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 50;
-    background: color-mix(in srgb, var(--ink) 55%, transparent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    padding-top: calc(24px + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.16s ease;
-  }
-
-  .modal-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .modal-card {
-    width: 100%;
-    max-width: 400px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    transform: translateY(6px) scale(0.98);
-    transition: transform 0.16s ease;
-    max-height: calc(100vh - 48px);
-    overflow-y: auto;
-  }
-
-  .modal-overlay.open .modal-card {
-    transform: translateY(0) scale(1);
-  }
-
-  .modal-top {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .modal-close {
-    background: none;
-    border: none;
-    color: var(--ink-soft);
-    cursor: pointer;
-    padding: 4px;
-    border-radius: 6px;
-    line-height: 0;
-  }
-
+  /* ---------- MODAL ---------- */
+  .modal-overlay { position: fixed; inset: 0; z-index: 50; background: color-mix(in srgb, var(--ink) 55%, transparent); display: flex; align-items: center; justify-content: center; padding: 24px; padding-top: calc(24px + env(safe-area-inset-top, 0px)); padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); opacity: 0; pointer-events: none; transition: opacity 0.16s ease; }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .modal-card { width: 100%; max-width: 400px; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px; transform: translateY(6px) scale(0.98); transition: transform 0.16s ease; max-height: calc(100vh - 48px); overflow-y: auto; }
+  .modal-overlay.open .modal-card { transform: translateY(0) scale(1); }
+  .modal-top { display: flex; justify-content: flex-end; }
+  .modal-close { background: none; border: none; color: var(--ink-soft); cursor: pointer; padding: 4px; border-radius: 6px; line-height: 0; }
   .modal-close:hover { color: var(--ink); }
-
-  .modal-avatar {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-head);
-    font-weight: 600;
-    font-size: 24px;
-    color: var(--brand);
-    background: var(--brand-soft);
-    border: 1.8px dashed color-mix(in srgb, var(--brand) 55%, transparent);
-    margin: 4px auto 0;
-    overflow: hidden;
-  }
-
-  .modal-name {
-    margin-top: 16px;
-    font-size: 21px;
-    text-align: center;
-  }
-
-  .modal-role {
-    margin-top: 4px;
-    font-size: 13px;
-    color: var(--ink-soft);
-    text-align: center;
-  }
-
-  .modal-details {
-    margin-top: 24px;
-    display: grid;
-    gap: 14px;
-  }
-
-  .modal-details dt {
-    font-size: 11.5px;
-    color: var(--ink-soft);
-    margin: 0;
-  }
-
-  .modal-details dd {
-    margin: 3px 0 0;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .modal-details dd a {
-    color: var(--brand);
-    text-decoration: none;
-  }
-
+  .modal-avatar { width: 88px; height: 88px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-weight: 600; font-size: 24px; color: var(--brand); background: var(--brand-soft); border: 1.8px dashed color-mix(in srgb, var(--brand) 55%, transparent); margin: 4px auto 0; overflow: hidden; }
+  .modal-name { margin-top: 16px; font-size: 21px; text-align: center; }
+  .modal-role { margin-top: 4px; font-size: 13px; color: var(--ink-soft); text-align: center; }
+  .modal-details { margin-top: 24px; display: grid; gap: 14px; }
+  .modal-details dt { font-size: 11.5px; color: var(--ink-soft); margin: 0; }
+  .modal-details dd { margin: 3px 0 0; font-size: 14px; font-weight: 500; }
+  .modal-details dd a { color: var(--brand); text-decoration: none; }
   .modal-details dd a:hover { text-decoration: underline; }
+  .modal-details dd.empty { font-weight: 400; font-style: italic; color: var(--ink-soft); }
+  .modal-startup { margin-top: 20px; padding: 12px 14px; background: var(--brand-soft); border-radius: 10px; font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; }
 
-  .modal-details dd.empty {
-    font-weight: 400;
-    font-style: italic;
-    color: var(--ink-soft);
-  }
-
-  .modal-startup {
-    margin-top: 20px;
-    padding: 12px 14px;
-    background: var(--brand-soft);
-    border-radius: 10px;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    line-height: 1.55;
-  }
-
-  .avatar {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    flex: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-head);
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--brand);
-    background: var(--brand-soft);
-    border: 1.6px dashed color-mix(in srgb, var(--brand) 55%, transparent);
-    overflow: hidden;
-  }
-
-  .person .name {
-    font-size: 14px;
-    font-weight: 600;
-  }
-
-  .person .role {
-    margin-top: 2px;
-    font-size: 12px;
-    color: var(--ink-soft);
-  }
-
-  .photo-note {
-    margin-top: 14px;
-    font-size: 12px;
-    color: var(--ink-soft);
-  }
-
-  /* ---------- LIGHTBOX (foto ampliada) ---------- */
-
-  .lightbox-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    background: rgba(6, 14, 15, 0.86);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    padding-top: calc(24px + env(safe-area-inset-top, 0px));
-    padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.18s ease;
-  }
-
-  .lightbox-overlay.open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .lightbox-overlay img {
-    max-width: min(92vw, 640px);
-    max-height: 86vh;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    border-radius: 14px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.45);
-    transform: scale(0.97);
-    transition: transform 0.18s ease;
-    background: var(--surface);
-  }
-
-  .lightbox-overlay.open img {
-    transform: scale(1);
-  }
-
-  .lightbox-close {
-    position: absolute;
-    top: calc(20px + env(safe-area-inset-top, 0px));
-    right: 20px;
-    background: rgba(255,255,255,0.12);
-    border: none;
-    color: #FFFFFF;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-  }
-
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox-overlay { position: fixed; inset: 0; z-index: 60; background: rgba(6, 14, 15, 0.86); display: flex; align-items: center; justify-content: center; padding: 24px; padding-top: calc(24px + env(safe-area-inset-top, 0px)); padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); opacity: 0; pointer-events: none; transition: opacity 0.18s ease; }
+  .lightbox-overlay.open { opacity: 1; pointer-events: auto; }
+  .lightbox-overlay img { max-width: min(92vw, 640px); max-height: 86vh; width: auto; height: auto; object-fit: contain; border-radius: 14px; box-shadow: 0 20px 60px rgba(0,0,0,0.45); transform: scale(0.97); transition: transform 0.18s ease; background: var(--surface); }
+  .lightbox-overlay.open img { transform: scale(1); }
+  .lightbox-close { position: absolute; top: calc(20px + env(safe-area-inset-top, 0px)); right: 20px; background: rgba(255,255,255,0.12); border: none; color: #FFFFFF; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
   .lightbox-close:hover { background: rgba(255,255,255,0.2); }
 
   /* ---------- FOOTER ---------- */
+  footer { border-top: 1px solid var(--border); padding: 22px 0 calc(22px + env(safe-area-inset-bottom, 0px)); }
+  .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--ink-soft); }
 
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 22px 0 calc(22px + env(safe-area-inset-bottom, 0px));
-  }
-
-  .footer-inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    font-size: 12px;
-    color: var(--ink-soft);
-  }
-
-  /* ---------- responsive ---------- */
-
+  @media (max-width: 860px) { .facts { grid-template-columns: 1fr; } }
   @media (max-width: 760px) {
     .hero { grid-template-columns: 1fr; padding-top: 44px; gap: 34px; }
     .team-grid { grid-template-columns: 1fr; }
     .hero h1 { max-width: none; }
+    .topbar-inner { padding: 10px 16px; }
+    .navlinks button { padding: 8px 10px; }
   }
-
   [data-view] { display: none; }
   [data-view].active { display: block; }
 </style>
@@ -629,9 +159,17 @@
     <a class="wordmark" href="#" onclick="showView('about');return false;">
       <span class="dot"></span> Mpox Angola
     </a>
-    <div class="navlinks">
-      <button type="button" data-nav="about" aria-current="page" onclick="showView('about')">Sobre</button>
-      <button type="button" data-nav="team" onclick="showView('team')">Equipa</button>
+    <div class="nav-right">
+      <div class="navlinks">
+        <button type="button" data-nav="about" aria-current="page" onclick="showView('about')">Sobre</button>
+        <button type="button" data-nav="team" onclick="showView('team')">Equipa</button>
+      </div>
+      <select class="lang-select" id="langSelect" aria-label="Idioma" onchange="setLang(this.value)">
+        <option value="pt">Português</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="kmb">Kimbundu</option>
+      </select>
     </div>
   </div>
 </nav>
@@ -688,6 +226,45 @@
           muito diferentes, ao mesmo tempo.
         </p>
       </div>
+    </section>
+
+    <section class="block" id="mpox">
+      <div class="col">
+        <h2>O que é o mpox</h2>
+        <p class="lede">O mpox (antes chamado varíola dos macacos) é uma doença viral que pode passar de pessoa para pessoa e, mais raramente, de animais para pessoas. Na maioria dos casos é leve, mas pode ser grave em crianças, grávidas e pessoas com defesas baixas.</p>
+      </div>
+
+      <div class="facts">
+        <div class="fact">
+          <h3>Sintomas</h3>
+          <ul>
+            <li>Erupção na pele com bolhas ou feridas, no rosto, mãos, pés ou zona genital</li>
+            <li>Febre, dor de cabeça e dores musculares</li>
+            <li>Gânglios inchados e cansaço</li>
+            <li>Aparecem, em geral, entre 3 e 17 dias após o contacto</li>
+          </ul>
+        </div>
+        <div class="fact">
+          <h3>Como se transmite</h3>
+          <ul>
+            <li>Contacto próximo com feridas, crostas ou fluidos de uma pessoa infectada</li>
+            <li>Gotículas respiratórias em contacto prolongado e próximo</li>
+            <li>Objectos contaminados, como roupa de cama e toalhas</li>
+            <li>Contacto com animais infectados</li>
+          </ul>
+        </div>
+        <div class="fact">
+          <h3>Como prevenir</h3>
+          <ul>
+            <li>Evitar contacto próximo com pessoas com erupção ou suspeita de mpox</li>
+            <li>Lavar as mãos com água e sabão com frequência</li>
+            <li>Não partilhar toalhas, roupa nem objectos pessoais</li>
+            <li>Quem tem sintomas deve isolar-se e procurar uma unidade de saúde</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="seek">Se tem febre e erupção na pele, ou esteve em contacto com um caso, procure uma unidade de saúde. Não espere que os sintomas piorem.</p>
     </section>
 
     <section class="block">
@@ -829,11 +406,138 @@
 
 <script>
   // ============================================================
+  // TRADUÇÕES — EDITA AQUI
+  // Chave = texto original em português (tem de ser IGUAL ao do HTML).
+  // Valor = [English, Français, Kimbundu]. Se um valor estiver vazio,
+  // mostra-se o português. Os textos em Kimbundu são um rascunho e
+  // devem ser revistos por um falante nativo antes de publicar.
+  // ============================================================
+  var D = {
+    "Mpox Angola — Triagem digital": ["Mpox Angola — Digital triage", "Mpox Angola — Triage numérique", "Mpox Angola — Kuxikina kua dijitalu"],
+    "Idioma": ["Language", "Langue", "Kizuelu"],
+    "Sobre": ["About", "À propos", "Kuma ietu"],
+    "Equipa": ["Team", "Équipe", "Ikipa"],
+    "Saber quando procurar ajuda — mais cedo.": ["Know when to seek help — sooner.", "Savoir quand consulter — plus tôt.", "Kuijiia kuma kuenda ku hospitalu — kiá kiá."],
+    "Durante um surto, muita gente não sabe interpretar sintomas nem quando ir a uma unidade de saúde. O Mpox Angola é uma triagem digital rápida que avalia sinais e orienta cada pessoa sobre o próximo passo certo.": [
+      "During an outbreak, many people don't know how to read symptoms or when to go to a health facility. Mpox Angola is a quick digital triage that checks signs and guides each person to the right next step.",
+      "Lors d'une épidémie, beaucoup de personnes ne savent pas interpréter les symptômes ni quand se rendre dans un établissement de santé. Mpox Angola est un outil de triage numérique rapide qui évalue les signes et oriente chaque personne vers la bonne étape suivante.",
+      "Mu kithi kia kiadi, athu a ngi ki-ijiia sintoma, ne kuma kuenda ku hospitalu. Mpox Angola kiene kia kuxikina kia dijitalu kia kiá, kia kumona sinalu, ni kubhana muselu ku muthu ku muenda uambote."],
+    "Transferir para": ["Download for", "Télécharger pour", "Kuzuela ku"],
+    "Transferir para Android": ["Download for Android", "Télécharger pour Android", "Kuzuela ku Android"],
+    "Transferir para iOS": ["Download for iOS", "Télécharger pour iOS", "Kuzuela ku iOS"],
+    "Em fase de lançamento — as ligações para as lojas ficam activas brevemente.": ["Launching soon — store links will be active shortly.", "Lancement en cours — les liens vers les boutiques seront bientôt actifs.", "Kiá kia kubanga — jimbandu ja lojas ji-ki-kala kiá kiá."],
+    "Níveis de triagem": ["Triage levels", "Niveaux de triage", "Jinivelu ja kuxikina"],
+    "Baixo nível de atenção": ["Low attention level", "Faible niveau d'attention", "Nivelu ia kuiza kiambote"],
+    "Orientações de prevenção e acompanhamento": ["Prevention and follow-up guidance", "Conseils de prévention et de suivi", "Kubhana muselu ia kukituka ni kukalakala"],
+    "Atenção": ["Attention", "Attention", "Kuijiia"],
+    "Procurar um profissional de saúde": ["See a health professional", "Consulter un professionnel de santé", "Kuenda ku dotolo"],
+    "Prioridade": ["Priority", "Priorité", "Kiambote kia kuenda"],
+    "Procurar atendimento com maior brevidade": ["Seek care as soon as possible", "Consulter le plus rapidement possible", "Kuenda ku hospitalu kiá kiá"],
+    "O problema": ["The problem", "Le problème", "Kiadi"],
+    "Em surtos de doenças infecciosas, identificar cedo quem precisa de avaliação médica é difícil — e os serviços de saúde recebem pessoas com níveis de risco muito diferentes, ao mesmo tempo.": [
+      "In outbreaks of infectious diseases, identifying early who needs medical evaluation is hard — and health services receive people with very different risk levels at the same time.",
+      "Lors d'épidémies de maladies infectieuses, il est difficile d'identifier tôt qui a besoin d'une évaluation médicale — et les services de santé reçoivent en même temps des personnes présentant des niveaux de risque très différents.",
+      "Mu kiadi kia ma-jimbu, kuijiia kiá muene ua kuenda ku dotolo ki-xikina — ni hospitalu ji-bhingika athu a nivelu ja kiadi ja ku-tena-tena."],
+    "O que é o mpox": ["What is mpox", "Qu'est-ce que le mpox", "Mpox kiene kithi"],
+    "O mpox (antes chamado varíola dos macacos) é uma doença viral que pode passar de pessoa para pessoa e, mais raramente, de animais para pessoas. Na maioria dos casos é leve, mas pode ser grave em crianças, grávidas e pessoas com defesas baixas.": [
+      "Mpox (formerly called monkeypox) is a viral disease that can spread from person to person and, more rarely, from animals to people. In most cases it is mild, but it can be serious in children, pregnant women and people with weakened immunity.",
+      "Le mpox (anciennement appelé variole du singe) est une maladie virale qui peut se transmettre d'une personne à l'autre et, plus rarement, des animaux aux personnes. Dans la plupart des cas, elle est bénigne, mais elle peut être grave chez les enfants, les femmes enceintes et les personnes à l'immunité affaiblie.",
+      "Mpox (kala kia kubhangesa kuma mukuiji) kiene kiadi kia vírusi kia kuenda ku muthu ku muthu, ni ku kithi kia ma-nama. Mu jithu jingi kiná kiá, kála kiá kia kiadi ku ana, ku atu a ku-kala ni mabu, ni athu a ngi ni ukama."],
+    "Sintomas": ["Symptoms", "Symptômes", "Sintoma"],
+    "Como se transmite": ["How it spreads", "Comment il se transmet", "Kuenda kuenu"],
+    "Como prevenir": ["How to prevent it", "Comment le prévenir", "Kuzuela kiá kuxikina"],
+    "Erupção na pele com bolhas ou feridas, no rosto, mãos, pés ou zona genital": ["Skin rash with blisters or sores on the face, hands, feet or genital area", "Éruption cutanée avec cloques ou plaies sur le visage, les mains, les pieds ou la zone génitale", "Kifuxi mu kithuxi ni kimbandu, mu kiso, mu maku, mu makanga ni mu ku-tenda"],
+    "Febre, dor de cabeça e dores musculares": ["Fever, headache and muscle aches", "Fièvre, maux de tête et douleurs musculaires", "Ngonga, kuiba kia mutu ni kuiba kia ma-tunda"],
+    "Gânglios inchados e cansaço": ["Swollen lymph nodes and tiredness", "Ganglions gonflés et fatigue", "Jitunda ja kuzimba ni kuxoka"],
+    "Aparecem, em geral, entre 3 e 17 dias após o contacto": ["Usually appear 3 to 17 days after contact", "Apparaissent généralement 3 à 17 jours après le contact", "Ji-bhanga kiá ku ma-kuá 3 ate 17 kuma kuzuela"],
+    "Contacto próximo com feridas, crostas ou fluidos de uma pessoa infectada": ["Close contact with sores, scabs or fluids of an infected person", "Contact étroit avec les plaies, croûtes ou fluides d'une personne infectée", "Kuzuela kiá ni kimbandu, ni maji a muthu ua kiadi"],
+    "Gotículas respiratórias em contacto prolongado e próximo": ["Respiratory droplets during prolonged, close contact", "Gouttelettes respiratoires lors d'un contact prolongé et rapproché", "Maji a mu kifuxi mu kuzuela kiá kia kiná"],
+    "Objectos contaminados, como roupa de cama e toalhas": ["Contaminated objects such as bedding and towels", "Objets contaminés, comme la literie et les serviettes", "Jimbanda ja kiadi, kala ngonda ja kuxika ni toalha"],
+    "Contacto com animais infectados": ["Contact with infected animals", "Contact avec des animaux infectés", "Kuzuela ni ma-nama a kiadi"],
+    "Evitar contacto próximo com pessoas com erupção ou suspeita de mpox": ["Avoid close contact with people who have a rash or suspected mpox", "Éviter le contact étroit avec les personnes présentant une éruption ou un mpox suspecté", "Kuzuela kiá ni athu a kifuxi ni kiadi kia mpox"],
+    "Lavar as mãos com água e sabão com frequência": ["Wash your hands often with soap and water", "Se laver souvent les mains à l'eau et au savon", "Kuosa maku ni maji ni sabão kiá kiá"],
+    "Não partilhar toalhas, roupa nem objectos pessoais": ["Do not share towels, clothes or personal items", "Ne pas partager serviettes, vêtements ni objets personnels", "Kuzuela kiá ku toalha, ku kizuela, ne jimbanda ja muene"],
+    "Quem tem sintomas deve isolar-se e procurar uma unidade de saúde": ["Anyone with symptoms should isolate and go to a health facility", "Toute personne présentant des symptômes doit s'isoler et se rendre dans un établissement de santé", "Ua ni sintoma ki-tena kuzuela ni kuenda ku hospitalu"],
+    "Se tem febre e erupção na pele, ou esteve em contacto com um caso, procure uma unidade de saúde. Não espere que os sintomas piorem.": ["If you have a fever and a skin rash, or you were in contact with a case, go to a health facility. Do not wait for symptoms to get worse.", "Si vous avez de la fièvre et une éruption cutanée, ou avez été en contact avec un cas, rendez-vous dans un établissement de santé. N'attendez pas que les symptômes s'aggravent.", "Enhe ngonga ni kifuxi, ne ua-zuela ni ua kiadi, kuenda ku hospitalu. Kuzuela kiá ku ba-ka-tena sintoma."],
+    "Como ajudamos": ["How we help", "Comment nous aidons", "Ietu tu-bhanga kuenu"],
+    "A pessoa responde a algumas perguntas simples e recebe, de imediato, uma orientação clara.": ["The person answers a few simple questions and immediately receives clear guidance.", "La personne répond à quelques questions simples et reçoit immédiatement une orientation claire.", "Muthu ua-kumbula jipulu ja kiá, ni ua-bhana muselu ua kiá kiá."],
+    "Identificação precoce": ["Early identification", "Identification précoce", "Kuijiia kiá kiá"],
+    "Sinais e sintomas são avaliados antes de a pessoa chegar ao hospital.": ["Signs and symptoms are assessed before the person reaches the hospital.", "Les signes et symptômes sont évalués avant que la personne n'arrive à l'hôpital.", "Sinalu ni sintoma ji-kumona kiá ku hospitalu."],
+    "Encaminhamento": ["Referral", "Orientation vers les soins", "Kuenda ku hospitalu"],
+    "Indicação clara de quando e onde procurar assistência.": ["Clear guidance on when and where to seek care.", "Indication claire de quand et où consulter.", "Muselu ua kiá kia kuenda ni kuenda ku hospitalu."],
+    "Educação em saúde": ["Health education", "Éducation à la santé", "Kuijiia kia saúdi"],
+    "Informação sobre prevenção e cuidados, baseada em critérios de profissionais de saúde.": ["Information on prevention and care, based on criteria from health professionals.", "Informations sur la prévention et les soins, fondées sur les critères de professionnels de santé.", "Kuijiia kia kuxikina ni kukalakala, kia ma-dotolo."],
+    "Triagem não é diagnóstico. A plataforma apoia a decisão — não substitui um médico.": ["Triage is not a diagnosis. The platform supports the decision — it does not replace a doctor.", "Le triage n'est pas un diagnostic. La plateforme aide à décider — elle ne remplace pas un médecin.", "Kuxikina ki-diagnóstiku. Ferramenta ki-tena ku dotolo."],
+    "As pessoas que constroem e mantêm o projecto.": ["The people who build and maintain the project.", "Les personnes qui construisent et font vivre le projet.", "Athu a kubanga ni kukalakala projeto."],
+    "Informática": ["Computer Science", "Informatique", "Informátika"],
+    "Electrónica e Telecomunicações": ["Electronics and Telecommunications", "Électronique et Télécommunications", "Eletrónika ni Telekomunikasões"],
+    "Técnico de Informática": ["Computer Technician", "Technicien en informatique", "Técniku ia Informátika"],
+    "Técnico de Electrónica e Telecomunicações": ["Electronics and Telecommunications Technician", "Technicien en électronique et télécommunications", "Técniku ia Eletrónika ni Telekomunikasões"],
+    "Fotografias por adicionar.": ["Photos to be added.", "Photos à ajouter.", "Jifoto ja kuzuela."],
+    "Idade": ["Age", "Âge", "Mimi"],
+    "Contacto": ["Contact", "Contact", "Kuzuela"],
+    "Ver perfil": ["View profile", "Voir le profil", "Kumona perfil"],
+    "A preencher": ["To be filled in", "À compléter", "Ku kuzuela"],
+    "anos": ["years old", "ans", "mimi"],
+    "Co-fundador(a) da": ["Co-founder of", "Cofondateur(trice) de", "Ua-kuata ni"],
+    "startup fundada em": ["a startup founded in", "startup fondée en", "startup ia-bhanga mu"],
+    "pelos quatro membros desta equipa.": ["by the four members of this team.", "par les quatre membres de cette équipe.", "ku atu a-nena a ikipa iki."],
+    "Fechar": ["Close", "Fermer", "Kuzuela"],
+    "Foto ampliada": ["Enlarged photo", "Photo agrandie", "Foto ia kuzimba"],
+    "© 2026 Mpox Angola — projecto de triagem digital": ["© 2026 Mpox Angola — digital triage project", "© 2026 Mpox Angola — projet de triage numérique", "© 2026 Mpox Angola — projeto ia kuxikina kia dijitalu"],
+    "Ferramenta de apoio à triagem. Não substitui avaliação médica.": ["Triage support tool. Does not replace a medical assessment.", "Outil d'aide au triage. Ne remplace pas une évaluation médicale.", "Ferramenta ia kuxikina. Ki-tena ku dotolo."]
+  };
+
+  var LI = { en: 0, fr: 1, kmb: 2 };
+  var LANG = 'pt';
+
+  // Traduz uma chave portuguesa para o idioma activo
+  function T(s) {
+    if (LANG === 'pt') return s;
+    var e = D[s];
+    return (e && e[LI[LANG]]) ? e[LI[LANG]] : s;
+  }
+
+  // Percorre a página e traduz textos e aria-labels
+  function applyLang() {
+    document.documentElement.lang = LANG;
+    var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        return n.parentNode.nodeName === 'SCRIPT' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var n;
+    while ((n = w.nextNode())) {
+      var key = n.__k;
+      if (!key) {
+        key = n.nodeValue.replace(/\s+/g, ' ').trim();
+        if (!key || !D[key]) continue;
+        n.__k = key;
+      }
+      var lead = n.nodeValue.match(/^\s*/)[0], trail = n.nodeValue.match(/\s*$/)[0];
+      n.nodeValue = lead + T(key) + trail;
+    }
+    document.querySelectorAll('[aria-label]').forEach(function (el) {
+      if (!el.__a) el.__a = el.getAttribute('aria-label');
+      if (D[el.__a]) el.setAttribute('aria-label', T(el.__a));
+    });
+    document.title = T('Mpox Angola — Triagem digital');
+  }
+
+  function setLang(code) {
+    LANG = code;
+    try { localStorage.setItem('mpox-lang', code); } catch (e) {}
+    document.getElementById('langSelect').value = code;
+    if (document.getElementById('personModal').classList.contains('open') && lastId) {
+      openPerson(lastId, lastTrigger);
+    } else {
+      applyLang();
+    }
+  }
+
+  // ============================================================
   // DADOS DA EQUIPA — EDITA AQUI
-  // Preenche idade, email e linkedin com a informação real de cada
-  // pessoa. Campos deixados como "" aparecem no modal como "A preencher".
-  // O campo "photo" aceita um caminho para a pasta assets (ex: "assets/nome.jpg").
-  // Enquanto vazio, mostra as iniciais.
+  // Campos "" aparecem no modal como "A preencher".
   // ============================================================
   var STARTUP_NOME = "";
   var STARTUP_ANO = 2026;
@@ -878,8 +582,6 @@
   };
   // ============================================================
 
-  // Calcula a idade a partir da data de nascimento ("AAAA-MM-DD"),
-  // sempre em relação à data actual — não precisa de ser actualizada à mão.
   function calculateAge(dobStr) {
     if (!dobStr) return '';
     var parts = dobStr.split('-');
@@ -890,10 +592,11 @@
       today.getMonth() > dob.getMonth() ||
       (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
     if (!hasHadBirthdayThisYear) age--;
-    return age + ' anos';
+    return age + ' ' + T('anos');
   }
 
   var lastTrigger = null;
+  var lastId = null;
 
   function setAvatarImage(el, p) {
     el.innerHTML = '';
@@ -924,6 +627,7 @@
   function openPerson(id, triggerEl) {
     var p = PEOPLE[id];
     if (!p) return;
+    lastId = id;
     lastTrigger = triggerEl || null;
 
     setAvatarImage(document.getElementById('modalAvatar'), p);
@@ -946,14 +650,21 @@
       return a;
     });
 
-    document.getElementById('modalStartup').textContent =
-      'Co-fundador(a) da ' + STARTUP_NOME + ', startup fundada em ' + STARTUP_ANO +
-      ' pelos quatro membros desta equipa.';
+    // Só mostra a frase da startup quando há nome definido
+    var st = document.getElementById('modalStartup');
+    if (STARTUP_NOME) {
+      st.style.display = '';
+      st.textContent = T('Co-fundador(a) da') + ' ' + STARTUP_NOME + ', ' + T('startup fundada em') +
+        ' ' + STARTUP_ANO + ' ' + T('pelos quatro membros desta equipa.');
+    } else {
+      st.style.display = 'none';
+    }
 
     var overlay = document.getElementById('personModal');
     overlay.classList.add('open');
     overlay.querySelector('.modal-close').focus();
     document.addEventListener('keydown', onModalKeydown);
+    applyLang();
   }
 
   function setDetail(elId, value, makeLink) {
@@ -987,8 +698,7 @@
     if (e.target === this) closePerson();
   });
 
-  // ---------- Lightbox (foto ampliada e nítida) ----------
-
+  // ---------- Lightbox ----------
   function openLightbox(src, alt) {
     var overlay = document.getElementById('photoLightbox');
     var img = document.getElementById('lightboxImg');
@@ -999,8 +709,7 @@
   }
 
   function closeLightbox() {
-    var overlay = document.getElementById('photoLightbox');
-    overlay.classList.remove('open');
+    document.getElementById('photoLightbox').classList.remove('open');
     document.removeEventListener('keydown', onLightboxKeydown);
   }
 
@@ -1024,12 +733,23 @@
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
 
-  // Preenche as fotos da grelha de equipa a partir de PEOPLE
+  // Fotos da grelha de equipa
   document.querySelectorAll('.person').forEach(function (btn) {
-    var id = btn.getAttribute('data-person');
-    var p = PEOPLE[id];
+    var p = PEOPLE[btn.getAttribute('data-person')];
     if (p) setAvatarImage(btn.querySelector('.avatar'), p);
   });
+
+  // Idioma inicial: o guardado, ou o do navegador, ou português
+  (function initLang() {
+    var saved = null;
+    try { saved = localStorage.getItem('mpox-lang'); } catch (e) {}
+    if (!saved) {
+      var nav = (navigator.language || 'pt').slice(0, 2);
+      saved = LI[nav] !== undefined ? nav : 'pt';
+    }
+    if (LI[saved] === undefined) saved = 'pt';
+    setLang(saved);
+  })();
 </script>
 
 </body>
