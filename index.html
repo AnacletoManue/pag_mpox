@@ -444,6 +444,7 @@
     background: var(--brand-soft);
     border: 1.8px dashed color-mix(in srgb, var(--brand) 55%, transparent);
     margin: 4px auto 0;
+    overflow: hidden;
   }
 
   .modal-name {
@@ -514,6 +515,7 @@
     color: var(--brand);
     background: var(--brand-soft);
     border: 1.6px dashed color-mix(in srgb, var(--brand) 55%, transparent);
+    overflow: hidden;
   }
 
   .person .name {
@@ -765,8 +767,10 @@
   // DADOS DA EQUIPA — EDITA AQUI
   // Preenche idade, email e linkedin com a informação real de cada
   // pessoa. Campos deixados como "" aparecem no modal como "A preencher".
+  // O campo "photo" aceita um caminho para a pasta assets (ex: "assets/nome.jpg").
+  // Enquanto vazio, mostra as iniciais.
   // ============================================================
-  var STARTUP_NOME = "[nome da startup]";
+  var STARTUP_NOME = "";
   var STARTUP_ANO = 2026;
 
   var PEOPLE = {
@@ -774,14 +778,16 @@
       name: "Anacleto Manuel",
       initials: "AM",
       role: "Técnico de Informática",
-      age: "",
-      email: "",
-      linkedin: ""
+      photo: "assets/anacleto.jpg",
+      age: "18 anos",
+      email: "anacletomanuel952@gmail.com",
+      linkedin: "https://www.linkedin.com/in/anacleto-manuel-195071334/"
     },
     marcelino: {
       name: "Marcelino Ikuma",
       initials: "MI",
       role: "Técnico de Informática",
+      photo: "",
       age: "",
       email: "",
       linkedin: ""
@@ -790,6 +796,7 @@
       name: "Jaime Martinho",
       initials: "JM",
       role: "Técnico de Electrónica e Telecomunicações",
+      photo: "",
       age: "",
       email: "",
       linkedin: ""
@@ -798,6 +805,7 @@
       name: "Cristiano Airosa",
       initials: "CA",
       role: "Técnico de Electrónica e Telecomunicações",
+      photo: "",
       age: "",
       email: "",
       linkedin: ""
@@ -807,12 +815,32 @@
 
   var lastTrigger = null;
 
+  function setAvatarImage(el, p) {
+    el.innerHTML = '';
+    if (p.photo) {
+      el.style.border = 'none';
+      var img = document.createElement('img');
+      img.src = p.photo;
+      img.alt = p.name;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      img.onerror = function () {
+        el.style.border = '';
+        el.textContent = p.initials;
+      };
+      el.appendChild(img);
+    } else {
+      el.textContent = p.initials;
+    }
+  }
+
   function openPerson(id, triggerEl) {
     var p = PEOPLE[id];
     if (!p) return;
     lastTrigger = triggerEl || null;
 
-    document.getElementById('modalAvatar').textContent = p.initials;
+    setAvatarImage(document.getElementById('modalAvatar'), p);
     document.getElementById('modalName').textContent = p.name;
     document.getElementById('modalRole').textContent = p.role;
 
@@ -884,6 +912,13 @@
     });
     window.scrollTo({ top: 0, behavior: 'auto' });
   }
+
+  // Preenche as fotos da grelha de equipa a partir de PEOPLE
+  document.querySelectorAll('.person').forEach(function (btn) {
+    var id = btn.getAttribute('data-person');
+    var p = PEOPLE[id];
+    if (p) setAvatarImage(btn.querySelector('.avatar'), p);
+  });
 </script>
 
 </body>
