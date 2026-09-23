@@ -844,7 +844,7 @@
       initials: "AM",
       role: "Técnico de Informática",
       photo: "assets/anacleto.jpeg",
-      age: "18 anos",
+      dob: "2008-01-14",
       email: "anacletomanuel952@gmail.com",
       linkedin: "https://www.linkedin.com/in/anacleto-manuel-195071334/"
     },
@@ -853,7 +853,7 @@
       initials: "MI",
       role: "Técnico de Informática",
       photo: "assets/ikuma.jpeg",
-      age: "18 anos",
+      dob: "2007-10-22",
       email: "marcelinoikuma@gmail.com",
       linkedin: "https://www.linkedin.com/in/marcelino-ikuma-92b05b296/"
     },
@@ -862,7 +862,7 @@
       initials: "JM",
       role: "Técnico de Electrónica e Telecomunicações",
       photo: "",
-      age: "",
+      dob: "",
       email: "",
       linkedin: ""
     },
@@ -871,12 +871,27 @@
       initials: "CA",
       role: "Técnico de Electrónica e Telecomunicações",
       photo: "",
-      age: "",
+      dob: "",
       email: "",
       linkedin: ""
     }
   };
   // ============================================================
+
+  // Calcula a idade a partir da data de nascimento ("AAAA-MM-DD"),
+  // sempre em relação à data actual — não precisa de ser actualizada à mão.
+  function calculateAge(dobStr) {
+    if (!dobStr) return '';
+    var parts = dobStr.split('-');
+    var dob = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+    var today = new Date();
+    var age = today.getFullYear() - dob.getFullYear();
+    var hasHadBirthdayThisYear =
+      today.getMonth() > dob.getMonth() ||
+      (today.getMonth() === dob.getMonth() && today.getDate() >= dob.getDate());
+    if (!hasHadBirthdayThisYear) age--;
+    return age + ' anos';
+  }
 
   var lastTrigger = null;
 
@@ -915,7 +930,7 @@
     document.getElementById('modalName').textContent = p.name;
     document.getElementById('modalRole').textContent = p.role;
 
-    setDetail('modalAge', p.age);
+    setDetail('modalAge', calculateAge(p.dob));
     setDetail('modalEmail', p.email, function (val) {
       var a = document.createElement('a');
       a.href = 'mailto:' + val;
