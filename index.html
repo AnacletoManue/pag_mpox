@@ -437,6 +437,9 @@
           <div><dt>Titular</dt><dd id="dnNome"></dd></div>
           <div><dt>IBAN</dt><dd id="dnIban"></dd></div>
           <div><dt>Express</dt><dd id="dnExpress"></dd></div>
+          <p>DADOS 2</p>
+          <div><dt>Titular</dt><dd id="dnNome2"></dd></div>
+          <div><dt>IBAN</dt><dd id="dnIban2"></dd></div>
         </dl>
       </div>
 
@@ -830,13 +833,17 @@
   });
 
   // ===== DONATIVO — EDITA AQUI =====
-var APK_URL  = "assets/NOME-DO-FICHEIRO.apk";   // muda para o nome real do .apk
+var APK_URL  = "assets/app-release.apk";   // muda para o nome real do .apk
 var IOS_URL  = "https://drive.google.com/drive/folders/1_4F8j6Ag48VHoZaPTyw4Bh10DiY2G8C8?usp=drive_link";
 var DONATE = {
   titular:  "Anacleto Demetrio da Silva Manuel",
-  iban:     "AO06 0055 0000 0085 7871 1015 4",
+  iban:     "AO06 0055 0000 00857871101 54",
   express:  "924127418",
   whatsapp: "244953727352"   // número do responsável, com 244, sem + nem espaços
+};
+var DONATE2 = {
+  titular:  "Marcelino Martinho Ikuma",
+  iban:     "AO06 0006 0000 66400892301 29",
 };
 
 function openDonate(platform) {
@@ -848,6 +855,9 @@ function openDonate(platform) {
   document.getElementById('dnNome').textContent = DONATE.titular;
   document.getElementById('dnIban').textContent = DONATE.iban;
   document.getElementById('dnExpress').textContent = DONATE.express;
+
+   document.getElementById('dnNome2').textContent = DONATE2.titular;
+  document.getElementById('dnIban2').textContent = DONATE2.iban;
 
   var msg = encodeURIComponent('Olá! Envio o comprovativo do meu donativo para o Mpox Angola.');
   document.getElementById('waBtn').href = 'https://wa.me/' + DONATE.whatsapp + '?text=' + msg;
