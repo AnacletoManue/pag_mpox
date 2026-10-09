@@ -202,14 +202,14 @@
         </p>
 
         <div class="cta-row">
-          <a class="store-btn primary" href="https://drive.google.com/drive/folders/1vSUWWcftwvHlVZ0ua9-UrsToy7Japtot?usp=drive_link" aria-label="Transferir para Android">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="2.3"/><line x1="10" y1="19" x2="14" y2="19"/></svg>
-            <span class="labels"><span class="small">Transferir para</span><span class="big">Android</span></span>
-          </a>
-          <a class="store-btn" href="https://drive.google.com/drive/folders/1_4F8j6Ag48VHoZaPTyw4Bh10DiY2G8C8?usp=drive_link" aria-label="Transferir para iOS">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="2.3"/><line x1="10" y1="19" x2="14" y2="19"/></svg>
-            <span class="labels"><span class="small">Transferir para</span><span class="big">iOS</span></span>
-          </a>
+          <a class="store-btn primary" href="#" onclick="openDonate('android');return false;" aria-label="Transferir para Android">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="2.3"/><line x1="10" y1="19" x2="14" y2="19"/></svg>
+  <span class="labels"><span class="small">Transferir para</span><span class="big">Android</span></span>
+</a>
+<a class="store-btn" href="#" onclick="openDonate('ios');return false;" aria-label="Transferir para iOS">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="2.3"/><line x1="10" y1="19" x2="14" y2="19"/></svg>
+  <span class="labels"><span class="small">Transferir para</span><span class="big">iOS</span></span>
+</a>
         </div>
         <p class="soon-note">Em fase de lançamento — as ligações para as lojas ficam activas brevemente.</p>
       </div>
@@ -414,6 +414,40 @@
     </section>
 
   </div>
+
+  <!-- ============ DONATIVO ============ -->
+<div data-view="donate">
+  <section class="block" style="border-top:none; padding-top:56px;">
+    <div class="col">
+
+      <a class="store-btn primary" id="dlBtn" href="#" style="display:inline-flex; margin-bottom:32px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><line x1="5" y1="20" x2="19" y2="20"/></svg>
+        <span class="labels"><span class="big">Fazer download agora</span></span>
+      </a>
+
+      <h2>Ajude a manter o app</h2>
+      <p class="lede">
+        Não é obrigatório — o app é gratuito. Se quiser, pode fazer um donativo para
+        ajudar a cobrir os custos de hospedagem e manutenção da aplicação.
+      </p>
+
+      <div class="fact" style="margin-top:28px; max-width:460px;">
+        <h3>Dados para donativo</h3>
+        <dl class="modal-details">
+          <div><dt>Titular</dt><dd id="dnNome"></dd></div>
+          <div><dt>IBAN</dt><dd id="dnIban"></dd></div>
+          <div><dt>Express</dt><dd id="dnExpress"></dd></div>
+        </dl>
+      </div>
+
+      <a class="store-btn" id="waBtn" href="#" target="_blank" rel="noopener" style="display:inline-flex; margin-top:24px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 12a9 9 0 1 1-4-7.5L21 3l-1.5 4A9 9 0 0 1 21 12z"/></svg>
+        <span class="labels"><span class="big">Enviar comprovativo por WhatsApp</span></span>
+      </a>
+
+    </div>
+  </section>
+</div>
 
   <div class="modal-overlay" id="personModal" role="dialog" aria-modal="true" aria-labelledby="modalName">
     <div class="modal-card">
@@ -795,6 +829,32 @@
     if (e.target === this) closeLightbox();
   });
 
+  // ===== DONATIVO — EDITA AQUI =====
+var APK_URL  = "assets/NOME-DO-FICHEIRO.apk";   // muda para o nome real do .apk
+var IOS_URL  = "https://drive.google.com/drive/folders/1_4F8j6Ag48VHoZaPTyw4Bh10DiY2G8C8?usp=drive_link";
+var DONATE = {
+  titular:  "Anacleto Demetrio da Silva Manuel",
+  iban:     "AO06 0055 0000 0085 7871 1015 4",
+  express:  "924127418",
+  whatsapp: "244953727352"   // número do responsável, com 244, sem + nem espaços
+};
+
+function openDonate(platform) {
+  var dl = document.getElementById('dlBtn');
+  dl.href = platform === 'android' ? APK_URL : IOS_URL;
+  if (platform === 'android') { dl.setAttribute('download', ''); }
+  else { dl.removeAttribute('download'); dl.target = '_blank'; dl.rel = 'noopener'; }
+
+  document.getElementById('dnNome').textContent = DONATE.titular;
+  document.getElementById('dnIban').textContent = DONATE.iban;
+  document.getElementById('dnExpress').textContent = DONATE.express;
+
+  var msg = encodeURIComponent('Olá! Envio o comprovativo do meu donativo para o Mpox Angola.');
+  document.getElementById('waBtn').href = 'https://wa.me/' + DONATE.whatsapp + '?text=' + msg;
+
+  showView('donate');
+}
+
   function showView(name) {
     document.querySelectorAll('[data-view]').forEach(function (el) {
       el.classList.toggle('active', el.getAttribute('data-view') === name);
@@ -817,7 +877,7 @@
   (function initLang() {
     var saved = null;
     try { saved = localStorage.getItem('mpox-lang'); } catch (e) {}
-    if (!saved) {
+    if (!saved) { 
       var nav = (navigator.language || 'pt').slice(0, 2);
       saved = LI[nav] !== undefined ? nav : 'pt';
     }
