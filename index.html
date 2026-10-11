@@ -208,8 +208,7 @@
 </a>
 <a class="store-btn" href="#" onclick="openDonate('ios');return false;" aria-label="Transferir para iOS">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="2.3"/><line x1="10" y1="19" x2="14" y2="19"/></svg>
-  <span class="labels"><span class="small">Acessar Pagina Web COmpativel com </span><span class="big">Diferentes Dispositivos</span></span>
-</a>
+<span class="small">Aceder à página web</span><span class="big">Todos os dispositivos</span></a>
         </div>
         <p class="soon-note">Em fase de lançamento — as ligações para as lojas ficam activas brevemente.</p>
       </div>
@@ -421,9 +420,9 @@
     <div class="col">
 
       <a class="store-btn primary" id="dlBtn" href="#" style="display:inline-flex; margin-bottom:32px;">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><line x1="5" y1="20" x2="19" y2="20"/></svg>
-        <span class="labels"><span class="big">Fazer download agora</span></span>
-      </a>
+  <svg id="dlIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><line x1="5" y1="20" x2="19" y2="20"/></svg>
+  <span class="labels"><span class="big" id="dlLabel">Fazer download agora</span></span>
+</a>
 
       <h2>Ajude a manter o app</h2>
       <p class="lede">
@@ -518,8 +517,8 @@
       "Mu kithi kia kiadi, athu a ngi ki-ijiia sintoma, ne kuma kuenda ku hospitalu. Mpox Angola kiene kia kuxikina kia dijitalu kia kiá, kia kumona sinalu, ni kubhana muselu ku muthu ku muenda uambote."],
     "Transferir para": ["Download for", "Télécharger pour", "Kuzuela ku"],
     "Transferir para Android": ["Download for Android", "Télécharger pour Android", "Kuzuela ku Android"],
-    "Transferir para iOS": ["Download for iOS", "Télécharger pour iOS", "Kuzuela ku iOS"],
-    "Em fase de lançamento — as ligações para as lojas ficam activas brevemente.": ["Launching soon — store links will be active shortly.", "Lancement en cours — les liens vers les boutiques seront bientôt actifs.", "Kiá kia kubanga — jimbandu ja lojas ji-ki-kala kiá kiá."],
+"Fazer download agora": ["Download now", "Télécharger maintenant", "Kuzuela kiá kiá"],
+"Aceder agora à página web": ["Access the web page now", "Accéder maintenant à la page web", "Kuenda kiá kiá ku página web"],    "Em fase de lançamento — as ligações para as lojas ficam activas brevemente.": ["Launching soon — store links will be active shortly.", "Lancement en cours — les liens vers les boutiques seront bientôt actifs.", "Kiá kia kubanga — jimbandu ja lojas ji-ki-kala kiá kiá."],
     "Níveis de triagem": ["Triage levels", "Niveaux de triage", "Jinivelu ja kuxikina"],
     "Baixo nível de atenção": ["Low attention level", "Faible niveau d'attention", "Nivelu ia kuiza kiambote"],
     "Orientações de prevenção e acompanhamento": ["Prevention and follow-up guidance", "Conseils de prévention et de suivi", "Kubhana muselu ia kukituka ni kukalakala"],
@@ -848,10 +847,27 @@ var DONATE2 = {
 
 function openDonate(platform) {
   var dl = document.getElementById('dlBtn');
-  dl.href = platform === 'android' ? APK_URL : IOS_URL;
-  if (platform === 'android') { dl.setAttribute('download', ''); }
-  else { dl.removeAttribute('download'); dl.target = '_blank'; dl.rel = 'noopener'; }
+  var label = document.getElementById('dlLabel');
+  var icon = document.getElementById('dlIcon');
 
+  if (platform === 'android') {
+    dl.href = APK_URL;
+    dl.setAttribute('download', '');
+    dl.removeAttribute('target');
+    dl.removeAttribute('rel');
+    label.setAttribute('data-pt', 'Fazer download agora');
+    label.textContent = T('Fazer download agora');
+    icon.innerHTML = '<path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><line x1="5" y1="20" x2="19" y2="20"/>';
+  } else {
+    dl.href = IOS_URL;
+    dl.removeAttribute('download');
+    dl.target = '_blank';
+    dl.rel = 'noopener';
+    label.textContent = T('Aceder agora à página web');
+    icon.innerHTML = '<path d="M14 4h6v6"/><line x1="20" y1="4" x2="11" y2="13"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>';
+  }
+
+  // ... resto da função fica igual (dnNome, dnIban, whatsapp, showView) ...
   document.getElementById('dnNome').textContent = DONATE.titular;
   document.getElementById('dnIban').textContent = DONATE.iban;
   document.getElementById('dnExpress').textContent = DONATE.express;
