@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -163,6 +164,107 @@
   }
   [data-view] { display: none; }
   [data-view].active { display: block; }
+
+
+/* ===== ESTATÍSTICAS DO SISTEMA MPOX ===== */
+
+.stats {
+  width: min(100% - 32px, 900px);
+  margin: 40px auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.stats div {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  min-height: 155px;
+  padding: 24px 14px;
+  text-align: center;
+
+  background: linear-gradient(145deg, #ffffff, #f0fdf9);
+  border: 1px solid #d5eee5;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(15, 118, 110, 0.08);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stats div::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #087f5b, #14b8a6);
+}
+
+.stats div:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(15, 118, 110, 0.15);
+}
+
+.stats strong {
+  display: block;
+  color: #087f5b;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.stats span {
+  display: block;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Telemóveis */
+@media (max-width: 600px) {
+  .stats {
+    width: calc(100% - 24px);
+    gap: 10px;
+    margin: 28px auto;
+  }
+
+  .stats div {
+    min-height: 120px;
+    padding: 20px 6px 14px;
+    gap: 8px;
+    border-radius: 13px;
+  }
+
+  .stats strong {
+    font-size: 27px;
+  }
+
+  .stats span {
+    font-size: 11px;
+  }
+}
+
+/* Ecrãs muito pequenos */
+@media (max-width: 350px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stats div {
+    min-height: 100px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -202,7 +304,7 @@
         </p>
 
         <div class="cta-row">
-          <a class="store-btn primary" href="#" onclick="openDonate('android');return false;" aria-label="Transferir para Android">
+          <a class="store-btn primary" id="downloadAndroid" href="#" onclick="openDonate('android');return false;" aria-label="Transferir para Android">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="2" width="12" height="20" rx="2.3"/><line x1="10" y1="19" x2="14" y2="19"/></svg>
   <span class="labels"><span class="small">Transferir para</span><span class="big">Android</span></span>
 </a>
@@ -228,6 +330,27 @@
         </div>
       </div>
     </section>
+
+
+    
+    <section class="stats">
+      <div>
+        <strong id="visitors">0</strong>
+        <span>Visitantes</span>
+      </div>
+
+      <div>
+        <strong id="views">0</strong>
+        <span>Visualizações</span>
+      </div>
+
+      <div>
+        <strong id="downloads">0</strong>
+        <span>Downloads Android</span>
+      </div>
+    </section>
+
+
 
     <section class="block" id="capturas">
       <div class="shots-intro">
@@ -910,6 +1033,82 @@ function openDonate(platform) {
     if (LI[saved] === undefined) saved = 'pt';
     setLang(saved);
   })();
+
+  
+
+  const SUPABASE_URL = "https://jhsvrclsuomzsiaxfzoo.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_3DyQpDGe-e0JQaJbrI75Xg_wmSm6NSr";
+
+  const db = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+  async function incrementar(tipo) {
+    const { error } = await db.rpc(
+      "increment_site_stat",
+      { stat_id: tipo }
+    );
+
+    if (error) {
+      console.error("Erro no contador:", error.message);
+      return;
+    }
+
+    await carregarContadores();
+  }
+
+  async function carregarContadores() {
+    const { data, error } = await db
+      .from("site_stats")
+      .select("id, total");
+
+    if (error) {
+      console.error("Erro ao ler contadores:", error.message);
+      return;
+    }
+
+    data.forEach(item => {
+      const elemento = document.getElementById(item.id);
+
+      if (elemento) {
+        elemento.textContent =
+          Number(item.total).toLocaleString("pt-PT");
+      }
+    });
+  }
+
+  async function iniciarContadores() {
+    await carregarContadores();
+
+    // Uma contagem de visitante por navegador.
+    if (!localStorage.getItem("mpox_visitante_contado")) {
+      localStorage.setItem("mpox_visitante_contado", "1");
+      await incrementar("visitors");
+    }
+
+    // Cada carregamento da página conta como visualização.
+    await incrementar("views");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    iniciarContadores();
+
+    const botao = document.getElementById("downloadAndroid");
+
+    if (botao) {
+      botao.addEventListener("click", async event => {
+        event.preventDefault();
+
+        const destino = botao.href;
+
+        await incrementar("downloads");
+
+        window.location.href = destino;
+      });
+    }
+  });
+
 </script>
 
 </body>
